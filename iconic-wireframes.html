@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<title>The Iconic — UX Wireframes — Lauren Thomas</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#F0EEE9;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;padding:48px 40px}
+h1{font-size:13px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#666;margin-bottom:6px}
+.subtitle{font-size:13px;color:#999;margin-bottom:40px}
+.grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:32px;margin-bottom:40px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:32px;justify-items:center}
+.frame-wrap{display:flex;flex-direction:column;align-items:center;gap:12px}
+.wf-label{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#555}
+.wf-desc{font-size:11px;color:#888;text-align:center;max-width:260px;line-height:1.5}
+.phone{width:280px;background:#111;border-radius:36px;padding:11px;box-shadow:0 0 0 1px #333,0 20px 60px rgba(0,0,0,.18)}
+.screen{background:#FAFAFA;border-radius:27px;overflow:hidden}
+.sb{background:#fff;height:16px;display:flex;align-items:center;justify-content:space-between;padding:0 14px}
+.sb-t{font-size:8.5px;font-weight:700;color:#111}
+.sb-i{display:flex;gap:3px;align-items:center}
+.dot{width:5px;height:5px;border-radius:50%;background:#111;opacity:.65}
+.nav{background:#fff;padding:11px 13px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #EAEAEA}
+.back{width:20px;height:20px;border-radius:50%;background:#F2F2F2;display:flex;align-items:center;justify-content:center;font-size:9px;color:#333}
+.nav-t{font-size:11.5px;font-weight:700;color:#111}
+.icon-btn{width:20px;height:20px;border-radius:5px;background:#F2F2F2;display:flex;align-items:center;justify-content:center;font-size:8.5px;color:#555}
+.chips{display:flex;gap:5px;padding:8px 13px;overflow-x:hidden;background:#fff;border-bottom:1px solid #EAEAEA}
+.chip{flex-shrink:0;font-size:8.5px;padding:3.5px 9px;border-radius:20px;border:1px solid #DDD;color:#444;background:#F8F8F8;font-weight:500}
+.chip.on{background:#111;color:#fff;border-color:#111}
+.chip.sv{background:#FDF6DE;color:#8A6C00;border-color:#E8C84A}
+.sec{padding:10px 13px}
+.sec-t{font-size:9px;font-weight:700;color:#888;letter-spacing:.1em;text-transform:uppercase;margin-bottom:7px}
+.fi{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #F2F2F2}
+.fi-n{font-size:10px;color:#111;font-weight:600}
+.fi-m{font-size:9px;color:#AAA;display:flex;align-items:center;gap:4px}
+.badge{background:#111;color:#fff;border-radius:10px;padding:1px 5px;font-size:7.5px;font-weight:700}
+.bar-bot{background:#fff;border-top:1px solid #EAEAEA;padding:10px 13px;display:flex;gap:8px}
+.b-out{flex:1;font-size:9.5px;padding:9px;border:1px solid #DDD;border-radius:9px;text-align:center;color:#555;font-weight:600}
+.b-fill{flex:2;font-size:9.5px;padding:9px;background:#111;border-radius:9px;text-align:center;color:#fff;font-weight:700}
+.b-full{font-size:10.5px;padding:12px;background:#111;border-radius:11px;text-align:center;color:#fff;font-weight:700;margin:0 13px 10px}
+.prod-img{width:100%;height:100px;background:linear-gradient(135deg,#E8E4DF,#CCC8C2);display:flex;align-items:center;justify-content:center}
+.prod-img span{font-size:8px;color:#AAA;letter-spacing:.06em}
+.prod-i{padding:9px 13px 5px}
+.br{font-size:7.5px;color:#999;letter-spacing:.1em;text-transform:uppercase;margin-bottom:2px}
+.pn{font-size:11.5px;font-weight:700;color:#111;margin-bottom:2px}
+.pr{font-size:11px;color:#111;font-weight:600;margin-bottom:8px}
+.sz-sec{padding:0 13px 8px}
+.sz-l{font-size:8.5px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px}
+.sz-row{display:flex;gap:4px}
+.sz{width:32px;height:28px;border-radius:7px;border:1px solid #DDD;display:flex;align-items:center;justify-content:center;font-size:9.5px;color:#777;font-weight:600}
+.sz.on{border-color:#111;background:#111;color:#fff}
+.fit-sec{padding:8px 13px;background:#fff;margin:5px 0;border-top:1px solid #F2F2F2;border-bottom:1px solid #F2F2F2}
+.fit-l{font-size:8.5px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.fit-bar{height:5px;border-radius:3px;background:linear-gradient(to right,#F59E0B,#22C55E,#F59E0B);position:relative}
+.fit-ind{position:absolute;top:-4px;left:27%;width:11px;height:11px;border-radius:50%;background:#111;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.fit-ends{display:flex;justify-content:space-between;margin-top:4px}
+.fit-e{font-size:7.5px;color:#AAA}
+.fit-c{font-size:8px;color:#888;margin-top:3px}
+.rec{margin:0 13px 9px;background:#EAF5EF;border-radius:9px;padding:8px 10px;display:flex;align-items:center;gap:8px}
+.rec-dot{width:22px;height:22px;border-radius:50%;background:#1A7A4E;display:flex;align-items:center;justify-content:center;font-size:9px;color:#fff;font-weight:700;flex-shrink:0}
+.rec-t{font-size:8.5px;color:#1A7A4E;font-weight:600;line-height:1.35}
+.chk-h{background:#fff;padding:13px 13px 9px;text-align:center;border-bottom:1px solid #EAEAEA}
+.chk-t{font-size:12.5px;font-weight:800;color:#111;margin-bottom:5px}
+.dots{display:flex;justify-content:center;gap:4px}
+.pd{width:6px;height:6px;border-radius:50%;background:#DDD}
+.pd.on{background:#111;width:16px;border-radius:3px}
+.sum{background:#F7F7F7;padding:9px 13px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #EAEAEA}
+.sum-t{font-size:9px;color:#777}
+.sum-a{font-size:11px;font-weight:800;color:#111}
+.pay-t{padding:11px 13px 7px;font-size:9.5px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.1em}
+.ap-btn{margin:0 13px 7px;padding:13px;background:#000;border-radius:11px;text-align:center;font-size:11px;font-weight:700;color:#fff;display:flex;align-items:center;justify-content:center;gap:7px}
+.gp-btn{margin:0 13px 7px;padding:11px;border:1.5px solid #DDD;border-radius:11px;text-align:center;font-size:10px;font-weight:700;color:#111;display:flex;align-items:center;justify-content:center;gap:7px}
+.div-row{display:flex;align-items:center;gap:8px;padding:5px 13px;margin-bottom:5px}
+.div-l{flex:1;height:1px;background:#EAEAEA}
+.div-t{font-size:9px;color:#BBB}
+.inp{margin:0 13px 7px;padding:9px 11px;border:1px solid #DDDDD;border-radius:9px;font-size:9.5px;color:#AAA;background:#FAFAFA}
+.inp-row{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:0 13px 7px}
+.inp-h{padding:9px 11px;border:1px solid #DDD;border-radius:9px;font-size:9.5px;color:#AAA;background:#FAFAFA}
+.sec-b{text-align:center;padding:8px;font-size:8px;color:#BBB}
+.ord-card{background:#fff;margin:9px 13px;border-radius:11px;padding:10px;display:flex;gap:9px;border:1px solid #EAEAEA}
+.ord-th{width:46px;height:54px;border-radius:7px;background:linear-gradient(135deg,#E8E4DF,#CCC8C2);flex-shrink:0}
+.ord-d{flex:1}
+.ord-n{font-size:10px;font-weight:700;color:#111;margin-bottom:2px}
+.ord-m{font-size:8.5px;color:#888;margin-bottom:3px}
+.ord-p{font-size:10px;font-weight:700;color:#111}
+.ret-tag{display:inline-block;background:#FDF6DE;color:#8A6C00;font-size:7.5px;font-weight:700;padding:2px 7px;border-radius:5px;margin-top:3px}
+.tl{padding:10px 13px}
+.tl-t{font-size:9px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.1em;margin-bottom:9px}
+.ti{display:flex;align-items:flex-start;gap:10px;padding-bottom:10px;position:relative}
+.ti-ic{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;flex-shrink:0;margin-top:1px}
+.ti-ic.dn{background:#1A7A4E;color:#fff;font-weight:700}
+.ti-ic.ac{background:#111;color:#fff}
+.ti-ic.pd{background:#F2F2F2;color:#CCC;border:1.5px solid #E0E0E0}
+.t-ln{position:absolute;left:10px;top:22px;width:1.5px;height:calc(100% - 10px);background:#EAEAEA}
+.t-ln.gn{background:#1A7A4E}
+.ti-t{flex:1}
+.ti-n{font-size:10px;font-weight:700;color:#111}
+.ti-n.pd{color:#BBBBBB}
+.ti-d{font-size:8px;color:#AAA;margin-top:1px}
+.eta{margin:3px 13px 8px;background:#EAF5EF;border-radius:9px;padding:8px 10px;font-size:8.5px;color:#1A7A4E;font-weight:600}
+.sup-lnk{text-align:center;padding:5px;font-size:9.5px;color:#2563C4;font-weight:600}
+.cf-h{background:#fff;padding:11px 13px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #EAEAEA}
+.cf-t{font-size:12px;font-weight:800;color:#111}
+.cf-done{font-size:10px;font-weight:700;color:#111;text-decoration:underline}
+.app-row{padding:7px 13px;display:flex;gap:5px;flex-wrap:wrap;border-bottom:1px solid #EAEAEA;background:#FAFAFA}
+.app-chip{display:flex;align-items:center;gap:4px;background:#111;color:#fff;border-radius:20px;font-size:8.5px;font-weight:700;padding:3px 9px}
+.cg{padding:11px 13px 7px}
+.cg-t{font-size:8.5px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.cc-row{display:flex;gap:8px;margin-bottom:7px}
+.ccw{display:flex;flex-direction:column;align-items:center;gap:3px}
+.cc{width:26px;height:26px;border-radius:50%}
+.cc.sel{box-shadow:0 0 0 2.5px #fff,0 0 0 4px #111}
+.cc-l{font-size:7.5px;color:#999}
+.sh-row{display:flex;gap:5px;margin-bottom:8px}
+.sh-btn{flex:1;font-size:8.5px;padding:5px;border:1px solid #DDD;border-radius:7px;text-align:center;color:#777;font-weight:600}
+.sh-btn.on{border-color:#111;background:#111;color:#fff}
+.pt-row{display:flex;flex-wrap:wrap;gap:5px;margin-top:5px}
+.pt-chip{font-size:9px;padding:4.5px 10px;border-radius:20px;border:1px solid #DDD;color:#555;font-weight:600}
+.pt-chip.on{background:#111;color:#fff;border-color:#111}
+.hr{height:1px;background:#EAEAEA;margin:3px 13px}
+.sv-sec{padding:8px 13px 5px}
+.sv-l{font-size:8px;color:#999;margin-bottom:5px}
+.sv-row{display:flex;gap:7px;align-items:center}
+.sv-inp{flex:1;border:1px solid #DDD;border-radius:8px;padding:7px 9px;font-size:8.5px;color:#AAA}
+.sv-btn{background:#111;color:#fff;border-radius:8px;padding:7px 11px;font-size:8.5px;font-weight:700}
+</style>
+</head>
+<body>
+<h1>The Iconic — UX Wireframe Concepts</h1>
+<p class="subtitle">Lauren Thomas · Personal UX Analysis · 2025</p>
+
+<div class="grid">
+
+<!-- WF1 -->
+<div class="frame-wrap">
+  <div class="wf-label">01 — Smart filter panel</div>
+  <div class="phone"><div class="screen">
+    <div class="sb"><span class="sb-t">9:41</span><div class="sb-i"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+    <div class="nav"><div class="back">←</div><div class="nav-t">Dresses (234)</div><div class="icon-btn">⊞</div></div>
+    <div class="chips">
+      <div class="chip on">Size: 10 ✕</div>
+      <div class="chip on">Black ✕</div>
+      <div class="chip">Price</div>
+      <div class="chip">Brand</div>
+      <div class="chip sv">★ Work outfits</div>
+    </div>
+    <div class="sec">
+      <div class="sec-t">Filter by</div>
+      <div class="fi"><div class="fi-n">Size</div><div class="fi-m"><div class="badge">1</div> ›</div></div>
+      <div class="fi"><div class="fi-n">Colour</div><div class="fi-m"><div class="badge">1</div> ›</div></div>
+      <div class="fi"><div class="fi-n">Price range</div><div class="fi-m">$0 – $300 ›</div></div>
+      <div class="fi"><div class="fi-n">Brand</div><div class="fi-m">Any ›</div></div>
+      <div class="fi"><div class="fi-n">Style</div><div class="fi-m">Any ›</div></div>
+      <div class="fi" style="border:none"><div class="fi-n">Occasion</div><div class="fi-m">Any ›</div></div>
+    </div>
+    <div class="hr"></div>
+    <div class="sv-sec">
+      <div class="sv-l">Save current filters as a preset</div>
+      <div class="sv-row"><div class="sv-inp">e.g. "Work outfits"</div><div class="sv-btn">Save</div></div>
+    </div>
+    <div class="bar-bot"><div class="b-out">Clear all</div><div class="b-fill">Apply — 234 results</div></div>
+  </div></div>
+  <div class="wf-desc">Saved filter presets, quick-access chips, and a live result count on the apply button</div>
+</div>
+
+<!-- WF2 -->
+<div class="frame-wrap">
+  <div class="wf-label">02 — Fit confidence system</div>
+  <div class="phone"><div class="screen">
+    <div class="sb"><span class="sb-t">9:41</span><div class="sb-i"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+    <div class="prod-img"><span>Product image</span></div>
+    <div class="prod-i">
+      <div class="br">Faithfull The Brand</div>
+      <div class="pn">Silk Slip Midi Dress</div>
+      <div class="pr">$289.00</div>
+    </div>
+    <div class="sz-sec">
+      <div class="sz-l">Select size</div>
+      <div class="sz-row">
+        <div class="sz">XS</div><div class="sz">S</div><div class="sz on">M</div><div class="sz">L</div><div class="sz">XL</div>
+      </div>
+    </div>
+    <div class="fit-sec">
+      <div class="fit-l">Fit rating for this item</div>
+      <div class="fit-bar" style="position:relative"><div class="fit-ind"></div></div>
+      <div class="fit-ends">
+        <span class="fit-e">Runs small</span>
+        <span class="fit-e" style="color:#22C55E;font-weight:700;font-size:8px">True to size</span>
+        <span class="fit-e">Runs large</span>
+      </div>
+      <div class="fit-c">Runs slightly small · Based on 1,204 reviews</div>
+    </div>
+    <div class="rec">
+      <div class="rec-dot">✓</div>
+      <div class="rec-t">Based on your measurements — we'd recommend <strong>size M</strong> for this item</div>
+    </div>
+    <div class="b-full">Add to bag</div>
+  </div></div>
+  <div class="wf-desc">Fit rating surfaced below size selector, with personalised recommendation from saved measurements</div>
+</div>
+
+<!-- WF3 -->
+<div class="frame-wrap">
+  <div class="wf-label">03 — Checkout redesign</div>
+  <div class="phone"><div class="screen">
+    <div class="sb"><span class="sb-t">9:41</span><div class="sb-i"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+    <div class="chk-h"><div class="chk-t">Checkout</div><div class="dots"><div class="pd"></div><div class="pd on"></div><div class="pd"></div></div></div>
+    <div class="sum"><div class="sum-t">3 items · expand ↓</div><div class="sum-a">$387.00</div></div>
+    <div class="pay-t">How would you like to pay?</div>
+    <div class="ap-btn"><span style="font-size:14px"> </span>Apple Pay</div>
+    <div class="gp-btn"><span style="font-weight:800;font-style:italic">G</span> Google Pay</div>
+    <div class="div-row"><div class="div-l"></div><div class="div-t">or pay by card</div><div class="div-l"></div></div>
+    <div class="inp">Card number</div>
+    <div class="inp-row"><div class="inp-h">Expiry</div><div class="inp-h">CVV</div></div>
+    <div class="b-full" style="margin-top:4px">Complete order — $387.00</div>
+    <div class="sec-b">🔒 Secure &amp; encrypted checkout</div>
+  </div></div>
+  <div class="wf-desc">Apple Pay and Google Pay surfaced first — checkout in 2 taps for returning users on mobile</div>
+</div>
+
+</div>
+
+<div class="grid-2">
+
+<!-- WF4 -->
+<div class="frame-wrap">
+  <div class="wf-label">04 — Return status tracker</div>
+  <div class="phone"><div class="screen">
+    <div class="sb"><span class="sb-t">9:41</span><div class="sb-i"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+    <div class="nav" style="justify-content:flex-start;gap:9px"><div class="back">←</div><div class="nav-t">My Returns</div></div>
+    <div class="ord-card" style="margin-top:10px">
+      <div class="ord-th"></div>
+      <div class="ord-d">
+        <div class="ord-n">Silk Slip Midi Dress</div>
+        <div class="ord-m">Size M · Ivory · #IC982341</div>
+        <div class="ord-p">$289.00</div>
+        <div class="ret-tag">Return in progress</div>
+      </div>
+    </div>
+    <div class="tl">
+      <div class="tl-t">Return status</div>
+      <div class="ti">
+        <div class="t-ln gn"></div>
+        <div class="ti-ic dn">✓</div>
+        <div class="ti-t"><div class="ti-n">Return requested</div><div class="ti-d">15 Oct 2025</div></div>
+      </div>
+      <div class="ti">
+        <div class="t-ln gn"></div>
+        <div class="ti-ic dn">✓</div>
+        <div class="ti-t"><div class="ti-n">Parcel received</div><div class="ti-d">18 Oct 2025</div></div>
+      </div>
+      <div class="ti">
+        <div class="t-ln"></div>
+        <div class="ti-ic ac">⟳</div>
+        <div class="ti-t"><div class="ti-n">Processing refund</div><div class="ti-d">In progress · est. 1–2 days</div></div>
+      </div>
+      <div class="ti">
+        <div class="t-ln"></div>
+        <div class="ti-ic pd">○</div>
+        <div class="ti-t"><div class="ti-n pd">Refund approved</div></div>
+      </div>
+      <div class="ti" style="padding-bottom:2px">
+        <div class="ti-ic pd">○</div>
+        <div class="ti-t"><div class="ti-n pd">In your account</div></div>
+      </div>
+    </div>
+    <div class="eta">Expected refund: est. 22 Oct · 3–5 business days</div>
+    <div class="sup-lnk">Contact support about this return</div>
+  </div></div>
+  <div class="wf-desc">Real-time milestones, proactive ETAs, and direct support link — all accessible in 2 clicks</div>
+</div>
+
+<!-- WF5 -->
+<div class="frame-wrap">
+  <div class="wf-label">05 — Colour &amp; pattern filter</div>
+  <div class="phone"><div class="screen">
+    <div class="sb"><span class="sb-t">9:41</span><div class="sb-i"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+    <div class="cf-h"><div style="display:flex;align-items:center;gap:9px"><div class="back">←</div><div class="cf-t">Colour &amp; Pattern</div></div><div class="cf-done">Done</div></div>
+    <div class="app-row"><div class="app-chip">Black (dark) <span style="opacity:.5;margin-left:2px">✕</span></div><div class="app-chip">Solid <span style="opacity:.5;margin-left:2px">✕</span></div></div>
+    <div class="cg">
+      <div class="cg-t">Neutral tones</div>
+      <div class="cc-row">
+        <div class="ccw"><div class="cc sel" style="background:#111"></div><div class="cc-l">Black</div></div>
+        <div class="ccw"><div class="cc" style="background:#fff;border:1px solid #DDD"></div><div class="cc-l">White</div></div>
+        <div class="ccw"><div class="cc" style="background:#D4B896"></div><div class="cc-l">Camel</div></div>
+        <div class="ccw"><div class="cc" style="background:#EDE0D0"></div><div class="cc-l">Cream</div></div>
+        <div class="ccw"><div class="cc" style="background:#888780"></div><div class="cc-l">Grey</div></div>
+      </div>
+      <div style="font-size:8.5px;color:#888;margin-bottom:5px;font-weight:700">Shade — Black</div>
+      <div class="sh-row"><div class="sh-btn">Light</div><div class="sh-btn on">Dark</div><div class="sh-btn">Any</div></div>
+    </div>
+    <div class="hr"></div>
+    <div class="cg">
+      <div class="cg-t">Warm tones</div>
+      <div class="cc-row">
+        <div class="ccw"><div class="cc" style="background:#C94040"></div><div class="cc-l">Red</div></div>
+        <div class="ccw"><div class="cc" style="background:#E87060"></div><div class="cc-l">Coral</div></div>
+        <div class="ccw"><div class="cc" style="background:#D4538A"></div><div class="cc-l">Pink</div></div>
+        <div class="ccw"><div class="cc" style="background:#D4A832"></div><div class="cc-l">Gold</div></div>
+        <div class="ccw"><div class="cc" style="background:#E8A870"></div><div class="cc-l">Orange</div></div>
+      </div>
+    </div>
+    <div class="hr"></div>
+    <div class="cg" style="padding-bottom:5px">
+      <div class="cg-t">Pattern</div>
+      <div class="pt-row">
+        <div class="pt-chip on">Solid</div>
+        <div class="pt-chip">Stripe</div>
+        <div class="pt-chip">Floral</div>
+        <div class="pt-chip">Animal</div>
+        <div class="pt-chip">Check</div>
+        <div class="pt-chip">Geometric</div>
+      </div>
+    </div>
+    <div class="bar-bot" style="margin-top:4px"><div class="b-out">Clear colour</div><div class="b-fill">Apply — 312 results</div></div>
+  </div></div>
+  <div class="wf-desc">Shade sub-filtering within each colour family, plus a pattern filter — so users can actually find what they're looking for</div>
+</div>
+
+</div>
+
+</body>
+</html>

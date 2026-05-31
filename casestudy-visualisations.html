@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Planning Data Visualisations — Lauren Thomas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --teal: #3B0E82; --teal-mid: #6029C4; --teal-light: #EAE3F8; --teal-pale: #F5F2FD;
+      --pink: #9B59D4; --pink-light: #F2EBFC;
+      --white: #FFFFFF; --off: #F8F6FD; --ink: #1A0E2E; --mid: #6E6080; --border: rgba(59,14,130,0.12);
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--ink); overflow-x: hidden; }
+
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.4rem 4rem; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); }
+    .nav-back { display: flex; align-items: center; gap: 0.5rem; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); text-decoration: none; transition: color 0.25s; }
+    .nav-back:hover { color: var(--teal); }
+    .nav-back::before { content: '←'; }
+    .nav-logo { font-family: 'Fraunces', serif; font-size: 1.05rem; color: var(--ink); text-decoration: none; }
+    .nav-tag { font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mid); }
+
+    .hero { padding: 11rem 4rem 0; background: var(--teal-pale); position: relative; overflow: hidden; border-top: 4px solid var(--teal); }
+    .hero::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--teal) 0%, var(--pink) 100%); }
+
+    .hero-inner { position: relative; z-index: 1; max-width: 900px; }
+    .hero-kicker { display: flex; align-items: center; gap: 1rem; margin-bottom: 2.5rem; }
+    .kicker-org { font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mid); }
+    .kicker-phase { font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.28rem 0.75rem; background: var(--teal-mid); color: var(--white); border-radius: 2px; }
+    .hero-title { font-family: 'Fraunces', serif; font-size: clamp(3rem, 6.5vw, 7rem); font-weight: 300; line-height: 1; color: var(--ink); margin-bottom: 2rem; letter-spacing: -0.02em; }
+    .hero-title em { font-style: italic; color: var(--teal); }
+    .hero-desc { font-size: 1rem; line-height: 1.8; color: var(--mid); max-width: 580px; font-weight: 300; margin-bottom: 5rem; }
+    .hero-meta { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; padding: 3rem 0; border-top: 1px solid var(--border); position: relative; z-index: 1; }
+    .meta-label { font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mid); margin-bottom: 0.5rem; }
+    .meta-value { font-size: 0.9rem; color: var(--ink); line-height: 1.5; }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 4rem; }
+    .section { padding: 7rem 0; }
+    .label { font-size: 0.62rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--teal); margin-bottom: 1.2rem; display: block; }
+    .h2 { font-family: 'Fraunces', serif; font-size: clamp(2rem, 3.5vw, 3.2rem); font-weight: 300; line-height: 1.08; color: var(--ink); margin-bottom: 2rem; letter-spacing: -0.01em; }
+    .h2 em { font-style: italic; color: var(--teal); }
+    .body { font-size: 0.95rem; line-height: 1.9; color: var(--mid); font-weight: 300; max-width: 680px; }
+    .body + .body { margin-top: 1.2rem; }
+
+    .context-band { background: var(--off); padding: 5rem 4rem; display: grid; grid-template-columns: 1fr 1px 1fr 1px 1fr; gap: 3.5rem; }
+    .context-divider { background: var(--border); }
+    .context-label { font-size: 0.6rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--mid); margin-bottom: 0.7rem; }
+    .context-value { font-size: 0.92rem; color: var(--ink); line-height: 1.6; }
+
+    .role-highlight { padding: 4rem; background: var(--teal-light); border-left: 4px solid var(--teal); display: flex; align-items: center; gap: 4rem; }
+    .role-text { font-family: 'Fraunces', serif; font-size: clamp(1.5rem, 2.5vw, 2.2rem); font-weight: 300; font-style: italic; color: var(--ink); line-height: 1.4; flex: 1; opacity: 0.85; }
+    .role-text strong { font-style: normal; font-weight: 400; color: var(--teal); }
+    .role-badges { display: flex; flex-direction: column; gap: 0.6rem; flex-shrink: 0; }
+    .role-badge { font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.5rem 1rem; border: 1px solid rgba(26,122,110,0.25); color: var(--mid); background: rgba(255,255,255,0.6); }
+
+    /* IMPACT BAND */
+    .impact-band { background: var(--teal); padding: 5rem 4rem; }
+    .impact-band .label { color: rgba(255,255,255,0.55); }
+    .impact-band .h2 { color: var(--white); }
+    .impact-band .h2 em { color: rgba(255,255,255,0.55); }
+    .impact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: 3.5rem; }
+    .impact-card { padding: 2.5rem; background: rgba(255,255,255,0.08); border-top: 2px solid rgba(255,255,255,0.25); }
+    .impact-card:hover { background: rgba(255,255,255,0.12); }
+    .impact-num { font-family: 'Fraunces', serif; font-size: 3.5rem; font-weight: 300; color: var(--white); line-height: 1; margin-bottom: 0.5rem; }
+    .impact-label { font-size: 0.85rem; color: rgba(255,255,255,0.65); line-height: 1.6; font-weight: 300; }
+    .impact-link { display: inline-block; margin-top: 1rem; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.5); text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.25); padding-bottom: 2px; transition: color 0.3s, border-color 0.3s; }
+    .impact-link:hover { color: var(--white); border-color: var(--white); }
+
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start; }
+    .three-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 3.5rem; }
+
+    /* HMW */
+    .hmw-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 3.5rem; }
+    .hmw-card { padding: 2.5rem; background: var(--teal-light); border-top: 3px solid var(--teal); }
+    .hmw-num { font-family: 'Fraunces', serif; font-size: 1.8rem; font-weight: 300; font-style: italic; color: var(--teal); line-height: 1; margin-bottom: 1rem; opacity: 0.5; }
+    .hmw-title { font-size: 0.9rem; font-weight: 500; color: var(--ink); line-height: 1.5; }
+
+    /* RESEARCH METHODS */
+    .methods-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
+    .method-card { padding: 2rem; background: var(--off); border-top: 2px solid var(--teal); }
+    .method-stat { font-family: 'Fraunces', serif; font-size: 2.2rem; font-weight: 300; color: var(--teal); line-height: 1; margin-bottom: 0.5rem; }
+    .method-title { font-size: 0.88rem; font-weight: 500; color: var(--ink); margin-bottom: 0.6rem; }
+    .method-body { font-size: 0.8rem; line-height: 1.7; color: var(--mid); font-weight: 300; }
+
+    /* DESIGN JOURNEY */
+    .journey-section { background: var(--ink); padding: 7rem 4rem; }
+    .journey-section .label { color: rgba(255,255,255,0.4); }
+    .journey-section .h2 { color: var(--white); }
+    .journey-section .h2 em { color: rgba(255,255,255,0.4); }
+    .journey-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; margin-top: 4rem; }
+    .journey-step { background: rgba(255,255,255,0.05); padding: 2rem; border-top: 2px solid rgba(255,255,255,0.15); }
+    .journey-step-num { font-family: 'Fraunces', serif; font-size: 3rem; font-weight: 300; font-style: italic; color: rgba(255,255,255,0.15); line-height: 1; margin-bottom: 1rem; }
+    .journey-step-title { font-family: 'Fraunces', serif; font-size: 1.1rem; font-weight: 300; color: var(--white); margin-bottom: 0.8rem; line-height: 1.3; }
+    .journey-step-body { font-size: 0.82rem; line-height: 1.8; color: rgba(255,255,255,0.45); font-weight: 300; }
+
+    /* SCREEN IMAGES */
+    .screen-img { width: 100%; display: block; border-radius: 4px; }
+    .screen-img-wrap { overflow: hidden; border-radius: 4px; background: var(--off); }
+
+    /* STATS */
+    .stats-band { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; margin: 4rem 0; }
+    .stat-card { padding: 2.5rem 2rem; background: var(--teal); text-align: center; }
+    .stat-card:nth-child(even) { background: var(--teal-mid); }
+    .stat-num { font-family: 'Fraunces', serif; font-size: 2.8rem; font-weight: 300; color: var(--white); line-height: 1; margin-bottom: 0.5rem; }
+    .stat-label { font-size: 0.72rem; color: rgba(255,255,255,0.75); line-height: 1.5; letter-spacing: 0.04em; }
+
+    /* FINDINGS */
+    .finding { display: grid; grid-template-columns: 4rem 1fr; gap: 2rem; padding: 2.5rem 0; border-bottom: 1px solid var(--border); align-items: start; }
+    .finding:first-child { border-top: 1px solid var(--border); }
+    .finding-num { font-family: 'Fraunces', serif; font-size: 2.2rem; font-weight: 300; font-style: italic; color: var(--teal); line-height: 1; padding-top: 0.2rem; }
+    .finding-title { font-size: 0.97rem; font-weight: 500; color: var(--ink); margin-bottom: 0.5rem; line-height: 1.4; }
+    .finding-body { font-size: 0.85rem; line-height: 1.8; color: var(--mid); font-weight: 300; }
+
+    /* PROTOTYPES */
+    .proto-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; margin-top: 3.5rem; }
+    .proto-card { padding: 2.5rem; background: var(--off); border-left: 3px solid var(--teal-mid); }
+    .proto-num { font-family: 'Fraunces', serif; font-size: 2rem; font-weight: 300; font-style: italic; color: var(--teal); opacity: 0.4; line-height: 1; margin-bottom: 1rem; }
+    .proto-title { font-size: 0.97rem; font-weight: 500; color: var(--ink); margin-bottom: 0.8rem; line-height: 1.3; }
+    .proto-body { font-size: 0.85rem; line-height: 1.8; color: var(--mid); font-weight: 300; }
+
+    /* RECOMMENDATIONS */
+    .recs-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; margin-top: 3.5rem; }
+    .rec-card { padding: 2.5rem; background: var(--teal-light); border-top: 2px solid var(--teal); }
+    .rec-num { font-family: 'Fraunces', serif; font-size: 1.4rem; font-weight: 300; font-style: italic; color: var(--teal); margin-bottom: 0.8rem; }
+    .rec-title { font-size: 0.9rem; font-weight: 500; color: var(--ink); margin-bottom: 0.5rem; line-height: 1.4; }
+    .rec-body { font-size: 0.82rem; line-height: 1.8; color: var(--mid); font-weight: 300; }
+
+    /* QUOTE */
+    .quote-block { background: var(--teal-light); border-left: 4px solid var(--teal-mid); padding: 2rem 2.5rem; margin: 3rem 0; max-width: 680px; }
+    .quote-text { font-family: 'Fraunces', serif; font-size: 1.1rem; font-style: italic; font-weight: 300; color: var(--ink); line-height: 1.6; margin-bottom: 0.5rem; }
+    .quote-attr { font-size: 0.75rem; color: var(--mid); letter-spacing: 0.08em; text-transform: uppercase; }
+
+    .reflection-quote { font-family: 'Fraunces', serif; font-size: clamp(1.4rem, 2.5vw, 2rem); font-weight: 300; font-style: italic; color: var(--ink); line-height: 1.5; border-left: 3px solid var(--teal); padding-left: 2.5rem; margin: 3rem 0; max-width: 700px; }
+
+    .next-project { padding: 5rem 4rem; background: var(--teal-light); border-top: 3px solid var(--teal); display: flex; justify-content: space-between; align-items: center; }
+    .next-label { font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mid); margin-bottom: 0.8rem; }
+    .next-title { font-family: 'Fraunces', serif; font-size: 2rem; font-weight: 300; color: var(--ink); }
+    .next-arrow { width: 54px; height: 54px; border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: var(--teal); text-decoration: none; transition: background 0.3s, color 0.3s; background: rgba(255,255,255,0.6); }
+    .next-arrow:hover { background: var(--teal); color: var(--white); }
+
+    footer { padding: 2rem 4rem; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); }
+    .footer-name { font-family: 'Fraunces', serif; font-size: 0.95rem; }
+    .footer-copy { font-size: 0.68rem; color: var(--mid); }
+
+    .fade-up { opacity: 0; transform: translateY(22px); transition: opacity 0.85s ease, transform 0.85s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 900px) {
+      nav { padding: 1.4rem 2rem; } .hero { padding: 9rem 2rem 0; } .hero-meta { grid-template-columns: 1fr 1fr; }
+      .context-band { padding: 4rem 2rem; grid-template-columns: 1fr; } .context-divider { display: none; }
+      .role-highlight { padding: 3rem 2rem; flex-direction: column; gap: 2rem; }
+      .container { padding: 0 2rem; } .two-col { grid-template-columns: 1fr; gap: 3rem; }
+      .hmw-grid { grid-template-columns: 1fr; } .methods-grid { grid-template-columns: 1fr 1fr; }
+      .stats-band { grid-template-columns: 1fr 1fr; }
+      .journey-section { padding: 5rem 2rem; } .journey-steps { grid-template-columns: 1fr 1fr; }
+      .impact-band { padding: 5rem 2rem; } .impact-grid { grid-template-columns: 1fr; }
+      .proto-grid { grid-template-columns: 1fr; } .recs-grid { grid-template-columns: 1fr; }
+      .next-project { padding: 4rem 2rem; } footer { padding: 2rem; flex-direction: column; gap: 0.8rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="nav-back">All work</a>
+    <a href="index.html" class="nav-logo">Lauren Thomas</a>
+    <span class="nav-tag">Case study</span>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-kicker">
+        <span class="kicker-org">DLUHC &mdash; Digital Planning Programme</span>
+        <span class="kicker-phase">Discovery · Interaction Design Lead</span>
+      </div>
+      <h1 class="hero-title">Planning Data<br><em>Visualisations</em></h1>
+      <p class="hero-desc">A discovery into how England's planning data could move from inaccessible PDFs to visual, interactive, web-based local plans — from whiteboard to GOV.UK guidance that is now live and in use across the country.</p>
+    </div>
+    <div class="hero-meta">
+      <div><div class="meta-label">Organisation</div><div class="meta-value">DLUHC via Local Digital</div></div>
+      <div><div class="meta-label">My role</div><div class="meta-value">Interaction Design Lead (Consultant)</div></div>
+      <div><div class="meta-label">Delivered</div><div class="meta-value">December 2023</div></div>
+      <div><div class="meta-label">Impact</div><div class="meta-value">Live on GOV.UK · February 2025</div></div>
+    </div>
+  </section>
+
+  <!-- CONTEXT -->
+  <div class="context-band">
+    <div><div class="context-label">What we audited</div><div class="context-value">32 local plans · 20 PropTech products · GIS survey with 27 LPAs</div></div>
+    <div class="context-divider"></div>
+    <div><div class="context-label">Who we spoke to</div><div class="context-value">6 national statutory consultees · 5 LPA GIS professionals · 3 frontrunner LPAs · 2 PropTech companies · 7 users in testing</div></div>
+    <div class="context-divider"></div>
+    <div><div class="context-label">What we built</div><div class="context-value">4 prototypes · GOV.UK guidance · Interactive map designs · Colour standards for all of England</div></div>
+  </div>
+
+  <!-- ROLE HIGHLIGHT -->
+  <div class="role-highlight">
+    <p class="role-text">As <strong>Interaction Design Lead</strong>, I shaped six strands of research, led co-design sessions, designed and tested four prototypes, and produced recommendations that became official published guidance — now used by every Local Planning Authority in England.</p>
+    <div class="role-badges">
+      <div class="role-badge">Research strategy</div>
+      <div class="role-badge">Co-design facilitation</div>
+      <div class="role-badge">Prototype design</div>
+      <div class="role-badge">GOV.UK standards</div>
+    </div>
+  </div>
+
+  <!-- IMPACT — leading section since the work is live -->
+  <div class="impact-band fade-up">
+    <div class="container" style="padding:0 4rem">
+      <span class="label">The outcome</span>
+      <h2 class="h2">This work went <em>live on GOV.UK.</em></h2>
+      <div class="impact-grid">
+        <div class="impact-card">
+          <div class="impact-num">430+</div>
+          <div class="impact-label">Local Planning Authorities across England now have published national guidance — derived directly from this discovery — on how to present their policies maps, colour-code policy themes, and structure data for users.</div>
+          <a href="https://www.gov.uk/guidance/how-to-present-your-policies-map" class="impact-link" target="_blank">View live GOV.UK guidance ↗</a>
+        </div>
+        <div class="impact-card">
+          <div class="impact-num">Feb 2025</div>
+          <div class="impact-label">The GOV.UK guidance published in February 2025 states: "We've created them through research and testing with LPAs and property technology suppliers." That research and testing was this discovery. The interactive map designs also fed into the national planning data platform.</div>
+          <a href="https://www.planning.data.gov.uk/map/" class="impact-link" target="_blank">View live planning data map ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- THE CHALLENGE -->
+  <section class="section">
+    <div class="container">
+      <div class="two-col fade-up">
+        <div>
+          <span class="label">The challenge</span>
+          <h2 class="h2">Most local plans are still <em>PDFs.</em></h2>
+        </div>
+        <div style="padding-top:0.5rem">
+          <p class="body">England's local plans — the documents that determine where homes, businesses and infrastructure can be built — are typically presented as text-heavy PDFs. There is limited and inconsistent use of visual content such as maps, tables, charts and images. The 2020 Planning for the Future white paper and the Levelling Up and Regeneration Bill both signal a requirement for local plans to become digital, interactive and accessible. This discovery set out to understand what that shift would actually require.</p>
+        </div>
+      </div>
+      <div style="margin-top:4rem" class="fade-up">
+        <span class="label">Three how might we questions</span>
+        <div class="hmw-grid">
+          <div class="hmw-card"><div class="hmw-num">01</div><div class="hmw-title">How might we move from PDFs to more visual, web-based local plans?</div></div>
+          <div class="hmw-card"><div class="hmw-num">02</div><div class="hmw-title">How might we meet the needs of all end users to navigate, engage with, and interact with local plan content at every stage?</div></div>
+          <div class="hmw-card"><div class="hmw-num">03</div><div class="hmw-title">How can we improve the use of interactive policy maps as a way to visualise local plan content?</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESEARCH -->
+  <section class="section" style="padding-top:0; border-top: 1px solid var(--border);">
+    <div class="container" style="padding-top:5rem">
+      <span class="label">Research approach</span>
+      <h2 class="h2 fade-up">Six strands of research to <em>understand the full picture.</em></h2>
+      <div class="methods-grid fade-up">
+        <div class="method-card"><div class="method-stat">32</div><div class="method-title">Visual content audit</div><div class="method-body">Audited visual content in 32 local plans across England — considering geographic spread, digital maturity, and plan stage. Landing pages, interactive maps, infographics, policy content.</div></div>
+        <div class="method-card"><div class="method-stat">27</div><div class="method-title">GIS tools survey</div><div class="method-body">Surveyed 27 LPAs on what GIS products they use — including digital maturity, skills, team sizes, and whether mapping is done in-house or outsourced.</div></div>
+        <div class="method-card"><div class="method-stat">20</div><div class="method-title">Market analysis</div><div class="method-body">Assessed 20 products LPAs use to draft, consult on, and publish local plan content — evaluating cost, technical requirements, integration, and ability to meet user needs.</div></div>
+        <div class="method-card"><div class="method-stat">11</div><div class="method-title">User research sessions</div><div class="method-body">A workshop with 6 national statutory consultees plus 5 semi-structured interviews with LPA GIS professionals — and co-design sessions exploring how users navigate planning data.</div></div>
+        <div class="method-card"><div class="method-stat">3</div><div class="method-title">Frontrunner LPA sessions</div><div class="method-body">Sessions with LPAs identified as frontrunners of digital local plans — to understand their approach, challenges encountered, and what LPA capability actually looks like in practice.</div></div>
+        <div class="method-card"><div class="method-stat">2</div><div class="method-title">Co-prototyping with PropTech</div><div class="method-body">Co-prototyping sessions with two mapping companies to test feasibility of our interactive map vision using existing market products — and what digital maturity implications that carried.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DESIGN JOURNEY -->
+  <div class="journey-section">
+    <span class="label" style="display:block;padding:0 4rem;margin-bottom:1.2rem;">Design journey</span>
+    <h2 class="h2 fade-up" style="padding:0 4rem;max-width:none;margin-bottom:0;">From whiteboard to <em>live government service.</em></h2>
+    <div class="journey-steps fade-up">
+      <div class="journey-step">
+        <div class="journey-step-num">01</div>
+        <div class="journey-step-title">Ideation &amp; co-design</div>
+        <div class="journey-step-body">Ran collaborative co-design sessions with LPAs, planning officers, and statutory consultees. Whiteboard sketching, paper prototypes, and blue sticky note sessions to explore how different users navigate policy data — what they need to find, and how they'd want to access it.</div>
+      </div>
+      <div class="journey-step">
+        <div class="journey-step-num">02</div>
+        <div class="journey-step-title">Lo-fi guidance pages</div>
+        <div class="journey-step-body">Translated research insights into lo-fi guidance page designs — covering using colours in maps (with WCAG-validated policy theme colours), map layers, content types, and technical data guidance. These designs directly informed the live GOV.UK guidance published February 2025.</div>
+      </div>
+      <div class="journey-step">
+        <div class="journey-step-num">03</div>
+        <div class="journey-step-title">Prototype development &amp; testing</div>
+        <div class="journey-step-body">Built and tested 4 prototypes: a site structure for online local plans, an interactive policy map vision with standardised policy theme colours, style guidelines, and technical data guidance. Tested with 7 users across 3 sessions at 5 LPAs spanning low, mid, and high digital maturity.</div>
+      </div>
+      <div class="journey-step">
+        <div class="journey-step-num">04</div>
+        <div class="journey-step-title">Hi-fi interactive map</div>
+        <div class="journey-step-body">Designed every state of the interactive policy map — Reg 18 (circles), Reg 19, and Adopted (polygons) plan versions; all 6 policy theme layers; flood risk constraints; LPA-wide non-spatial policies; list view with postcode search; polygon drawing mode; and the full policy detail page design.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- IDEATION IMAGES -->
+  <section class="section">
+    <div class="container">
+      <span class="label">Ideation &amp; co-design</span>
+      <h2 class="h2 fade-up">Starting with people, <em>not pixels.</em></h2>
+      <p class="body fade-up">Before a single screen was designed, the team spent time in rooms with planning officers, GIS professionals, and statutory consultees — mapping their world, sketching flows, and testing assumptions about what an interactive local plan would actually need to do.</p>
+      <div class="screen-img-wrap fade-up" style="margin-top:3rem;">
+        <div style="min-height:420px; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:0.8rem; background:#F2F6FA; border:1px solid rgba(26,46,68,0.10);"><span style="font-family:'Fraunces',serif;font-style:italic;font-size:0.95rem;color:rgba(26,46,68,0.25);">[ Add your ideation &amp; co-design session photos ]</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- KEY FINDINGS -->
+  <section class="section" style="padding-top:0; border-top: 1px solid var(--border);">
+    <div class="container" style="padding-top:5rem">
+      <div class="two-col fade-up">
+        <div>
+          <span class="label">What the audit showed</span>
+          <h2 class="h2">Inconsistency was the <em>defining feature.</em></h2>
+        </div>
+        <div style="padding-top:0.5rem">
+          <p class="body">Auditing 32 local plans made one thing very clear: there was no standard. LPAs were bound by the structure of their own council websites, leading to creative but inconsistent use of design components. Most used text-heavy PDFs with limited visual content. The result was a fragmented landscape that failed end users at almost every stage.</p>
+        </div>
+      </div>
+      <div style="margin-top:4rem" class="fade-up">
+        <div class="finding"><div class="finding-num">01</div><div><div class="finding-title">Local plan landing pages lack clear structure and navigation</div><div class="finding-body">No consistency between local plans in how content was organised or signposted. LPAs were constrained by their council website structures. No examples of search functionality specifically built for local plan content were found across the 32 audited.</div></div></div>
+        <div class="finding"><div class="finding-num">02</div><div><div class="finding-title">The user journey to interactive maps was clunky and unclear</div><div class="finding-body">Interactive maps were often hard to find — linked to without context or instructions, and requiring users to move to an entirely different platform with no continuity. The journey from any stage of plan-making to map content was poorly signposted.</div></div></div>
+        <div class="finding"><div class="finding-num">03</div><div><div class="finding-title">Interactive maps looked completely different plan to plan</div><div class="finding-body">Colours were used inconsistently — a clear shared visual language was entirely absent. For any user viewing multiple local plans, this created real friction and made national comparison of planning policy almost impossible.</div></div></div>
+        <div class="finding"><div class="finding-num">04</div><div><div class="finding-title">The challenge is less about products — and far more about capability</div><div class="finding-body">The existing PropTech products LPAs use are capable of a higher standard than is currently present in most local plans. The gap is not primarily technical — it is about the support, skills, and resources LPAs need. This reframed the design challenge significantly.</div></div></div>
+      </div>
+
+      <div class="quote-block fade-up" style="margin-top:3rem">
+        <div class="quote-text">"Keen to use open source GIS software but IT team won't let us due to security concerns."</div>
+        <div class="quote-attr">— Low digital maturity LPA, user research</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LO-FI GUIDANCE IMAGES -->
+  <section class="section" style="border-top: 1px solid var(--border);">
+    <div class="container">
+      <span class="label">Lo-fi — guidance page designs</span>
+      <h2 class="h2 fade-up">Designing the standard <em>before building the product.</em></h2>
+      <p class="body fade-up">A key insight from research was that LPAs needed guidance before they needed a tool. These lo-fi designs — covering colour standards, map layer hierarchy, content types, and technical data guidance — were developed, iterated, and tested before moving to high-fidelity. They became the basis for the live GOV.UK guidance published in February 2025.</p>
+      <div class="screen-img-wrap fade-up" style="margin-top:3rem;">
+        <img src="vis-guidance.png" alt="Lo-fi guidance page designs — colour key and map layers" class="screen-img">
+      </div>
+      <p class="body fade-up" style="margin-top:2rem">The colour key (left) defined 6 WCAG-validated policy theme colours — Housing (orange), Economy (purple), Design (pink/red), Environment &amp; sustainability (green), Infrastructure (brown), Health &amp; wellbeing (blue) — that are now the recommended standard for every LPA in England. The map layers guidance (right) established the standardised layer hierarchy that fed directly into the interactive map prototype.</p>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="container fade-up">
+    <div class="stats-band">
+      <div class="stat-card"><div class="stat-num">32</div><div class="stat-label">Local plans audited</div></div>
+      <div class="stat-card"><div class="stat-num">20</div><div class="stat-label">PropTech products assessed</div></div>
+      <div class="stat-card"><div class="stat-num">7</div><div class="stat-label">Users in testing sessions</div></div>
+      <div class="stat-card"><div class="stat-num">4</div><div class="stat-label">Prototypes built &amp; tested</div></div>
+    </div>
+  </div>
+
+  <!-- PROTOTYPES -->
+  <section class="section" style="border-top: 1px solid var(--border);">
+    <div class="container">
+      <span class="label">The prototypes</span>
+      <h2 class="h2 fade-up">Four prototypes to <em>test the vision.</em></h2>
+      <p class="body fade-up">Following ideation and research synthesis, four prototypes were built and taken to user testing with LPA users across England.</p>
+      <div class="proto-grid fade-up">
+        <div class="proto-card"><div class="proto-num">01</div><div class="proto-title">Site structure for an online local plan</div><div class="proto-body">A standardised structure LPAs could follow on their council website or microsite — showing a zoomed-out view of a whole online local plan including landing page, all policies, interactive maps, evidence base, plan history, help, and contact. Tested across three different hosting approaches.</div></div>
+        <div class="proto-card"><div class="proto-num">02</div><div class="proto-title">Interactive policy map vision</div><div class="proto-body">A high-fidelity prototype testing the vision for an interactive policy map — 6 standardised policy themes and colours, a standardised base map, non-spatial policy handling, postcode search, flood risk constraint layers, Reg 18/19/Adopted plan versioning with circular key diagram to adopted polygon progression.</div></div>
+        <div class="proto-card"><div class="proto-num">03</div><div class="proto-title">Style guidelines</div><div class="proto-body">Example guidelines forming part of a wider style guide — covering standardised layer hierarchy, maps at different plan-making stages, standardised policy theme colours validated against WCAG accessibility standards on three base map colours, and guidance on non-map content types.</div></div>
+        <div class="proto-card"><div class="proto-num">04</div><div class="proto-title">Technical data guidance</div><div class="proto-body">Prototypes of technical guidance pages to support LPAs with data-related tasks through the plan-making journey — each with a clear contents page, minimum tools and skills required, different options for different tools, and step-by-step guidance tested across low, mid, and high digital maturity LPAs.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HI-FI MAP IMAGES -->
+  <section class="section" style="background: var(--off); padding: 7rem 4rem;">
+    <span class="label">Hi-fi — interactive policy map</span>
+    <h2 class="h2 fade-up">Every state, <em>every user journey.</em></h2>
+    <p class="body fade-up" style="margin-bottom:3rem">The interactive policy map prototype was designed across every state and user journey — from the default adopted view with all 6 policy theme layers, to postcode search showing policies affecting a specific area, to the historical Reg 18 consultation view with circular key diagram markers, to polygon drawing mode for site boundary searches.</p>
+    <div class="screen-img-wrap fade-up">
+      <div style="min-height:420px; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:0.8rem; background:#F2F6FA; border:1px solid rgba(26,46,68,0.10);" style="min-height:500px; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:0.8rem; background:#F2F6FA; border:1px solid rgba(26,46,68,0.10);"><span style="font-family:'Fraunces',serif;font-style:italic;font-size:0.95rem;color:rgba(26,46,68,0.25);">[ Add your hi-fi interactive map screenshots ]</span></div>
+    </div>
+    <p class="body fade-up" style="margin-top:2rem">The adopted map (main) shows all 6 policy theme layers using WCAG-validated colours on the OS greyscale base. The list view (top right, postcode SW16 1HS) returns "8 policies affect this area" with colour-coded policy cards including real policy codes (H1, H25, EC7, EN12). The Reg 18 view (bottom right) shows the circular key diagram format used at consultation stage — a deliberate design decision to signal to users that this is historical reference data.</p>
+  </section>
+
+  <!-- POLICY PAGE IMAGE -->
+  <section class="section">
+    <div class="container">
+      <span class="label">Policy detail page</span>
+      <h2 class="h2 fade-up">From map to <em>policy in one click.</em></h2>
+      <p class="body fade-up">A key user need identified in research was the ability to move seamlessly from seeing a policy on the map to reading its full text. The policy detail page design — shown here for H1 Housing Requirement — combines the structured policy data (period, requirements) with the full policy wording across clear sections: why the policy is needed, how it should be applied, and how outcomes will be measured.</p>
+      <div class="screen-img-wrap fade-up" style="margin-top:3rem; max-width:700px;">
+        <div style="min-height:420px; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:0.8rem; background:#F2F6FA; border:1px solid rgba(26,46,68,0.10);"><span style="font-family:'Fraunces',serif;font-style:italic;font-size:0.95rem;color:rgba(26,46,68,0.25);">[ Add your policy detail page screenshot ]</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- USER TESTING -->
+  <section class="section" style="border-top: 1px solid var(--border);">
+    <div class="container">
+      <span class="label">User testing</span>
+      <h2 class="h2 fade-up">3 sessions · 7 users · 5 Local Planning Authorities.</h2>
+      <p class="body fade-up">Tested with planning officers, planning and GIS professionals, and a web content manager from Leeds City Council, Greater Cambridge Shared Planning, Norfolk County Council, Cheshire, and others — representing low, mid, and high digital maturity LPAs.</p>
+      <div style="margin-top:4rem" class="fade-up">
+        <div class="finding"><div class="finding-num">01</div><div><div class="finding-title">The site structure was validated across all three hosting types</div><div class="finding-body">All LPA users validated the proposed site structure as appropriate and workable — regardless of their current hosting approach. This gave us confidence it could work as a genuine national standard.</div></div></div>
+        <div class="finding"><div class="finding-num">02</div><div><div class="finding-title">The interactive map was described as "simple and easy to use"</div><div class="finding-body">All LPA users validated the interactive policy map as feasible within their existing mapping products. Broad agreement on the concept of consistent policy themes — but users flagged the need for further colour testing before finalising specific values.</div></div></div>
+        <div class="finding"><div class="finding-num">03</div><div><div class="finding-title">Area-wide policies should be queryable — not a map layer</div><div class="finding-body">A key design decision from testing: area-wide policies should not be visualised as a layer on the map, but should be 'queryable' — appearing as a list when a user searches an area. This distinction between spatial and non-spatial policy became a central principle of the map design.</div></div></div>
+        <div class="finding"><div class="finding-num">04</div><div><div class="finding-title">Standardised colours would save LPAs time</div><div class="finding-body">LPA users confirmed they could change their existing colour approach to follow a proposed standard — and that doing so would save them time. This validated the WCAG colour accessibility work and confirmed standardisation was feasible at scale.</div></div></div>
+        <div class="finding"><div class="finding-num">05</div><div><div class="finding-title">Images removed from content types after testing feedback</div><div class="finding-body">Planning officers did not feel 'Images' were useful within the local plan content context; web content managers raised accessibility concerns. The prototype was iterated to remove this content type — a direct change driven by user insight.</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RECOMMENDATIONS -->
+  <section class="section" style="border-top: 1px solid var(--border);">
+    <div class="container">
+      <span class="label">Recommendations</span>
+      <h2 class="h2 fade-up">MVP baseline standards — and what comes <em>next.</em></h2>
+      <div class="recs-grid fade-up">
+        <div class="rec-card"><div class="rec-num">Baseline 01</div><div class="rec-title">Standardised colours for map layers</div><div class="rec-body">LPAs should use standardised colours for map layers based on 6 policy themes. Colours validated against WCAG accessibility requirements on 3 base map colours. Now live as official GOV.UK guidance.</div></div>
+        <div class="rec-card"><div class="rec-num">Baseline 02</div><div class="rec-title">Standardised layer hierarchy</div><div class="rec-body">LPAs should follow a standardised layer hierarchy for interactive maps — validated in testing with the proposed order confirmed as correct by LPA users.</div></div>
+        <div class="rec-card"><div class="rec-num">Baseline 03</div><div class="rec-title">Search by location and user-drawn boundary</div><div class="rec-body">Users should be able to search by postcode, use 'my location', and draw a site boundary — designed and tested in the prototype, now reflected in the national planning data map.</div></div>
+        <div class="rec-card"><div class="rec-num">Baseline 04</div><div class="rec-title">Geospatial data specification for policies</div><div class="rec-body">LPAs should follow a specification for geospatial data connected to policies — foundational to delivering consistent map layer colours and hierarchy nationally.</div></div>
+        <div class="rec-card"><div class="rec-num">Beyond baseline</div><div class="rec-title">Standardised online local plan structure</div><div class="rec-body">Validated in testing but requiring further work with web content teams before becoming a standard — with further research needed into technical and procurement implications.</div></div>
+        <div class="rec-card"><div class="rec-num">Priority gap</div><div class="rec-title">Standards for constraint layers and line styling</div><div class="rec-body">Standards for constraints, site allocations, and boundary line styling are needed but not yet prioritised for research — flagged by LPAs as important and scoped for the next phase.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REFLECTION -->
+  <section class="section" style="border-top: 1px solid var(--border);">
+    <div class="container">
+      <div class="two-col fade-up">
+        <div>
+          <span class="label">Reflection</span>
+          <h2 class="h2">What this discovery <em>taught me.</em></h2>
+        </div>
+        <div>
+          <blockquote class="reflection-quote">"The hardest design challenge here wasn't the interface — it was helping a diverse group of LPAs with completely different tools, teams and capabilities imagine the same future. I only recently found out the guidance went live — and that feeling of knowing your work shapes how planning decisions are made across the whole of England is something quite extraordinary."</blockquote>
+          <p class="body">This was the richest, most complex discovery I've led — holding desk research, market analysis, user needs, technical constraints, and national policy context simultaneously, while keeping the team focused on the questions that would actually move the programme forward. It also taught me something about the long tail of design work: the impact of a discovery often lands long after the project closes, in places you're not always watching.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEXT -->
+  <div class="next-project">
+    <div>
+      <div class="next-label">Next project</div>
+      <div class="next-title">Selecting &amp; Publicising Sites — Alpha</div>
+    </div>
+    <a href="casestudy-siteselection.html" class="next-arrow">→</a>
+  </div>
+
+  <footer>
+    <span class="footer-name">Lauren Thomas</span>
+    <span class="footer-copy">&copy; 2026 Lauren Thomas</span>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 60);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

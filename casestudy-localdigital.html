@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DLUHC Digital Planning — Lauren Thomas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --pink:       #E8177F;
+      --pink-mid:   #F26DAF;
+      --pink-light: #FCEAF4;
+      --pink-pale:  #FEF5FA;
+      --teal:       #2B8C7E;
+      --teal-light: #E0F2F0;
+      --white:      #FFFFFF;
+      --off:        #FAF8FC;
+      --ink:        #0D1A18;
+      --mid:        #5A6E6B;
+      --border:     rgba(232,23,127,0.12);
+      --border-soft:rgba(43,140,126,0.12);
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--ink); overflow-x: hidden; }
+
+    /* NAV */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.4rem 4rem; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); }
+    .nav-back { display: flex; align-items: center; gap: 0.5rem; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); text-decoration: none; transition: color 0.25s; }
+    .nav-back:hover { color: var(--pink); }
+    .nav-back::before { content: '←'; font-size: 0.9rem; }
+    .nav-logo { font-family: 'Fraunces', serif; font-size: 1.05rem; color: var(--ink); text-decoration: none; }
+    .nav-tag { font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mid); }
+
+    /* HERO */
+    .hero {
+      padding: 11rem 4rem 0;
+      background: linear-gradient(140deg, var(--pink-pale) 0%, #FDF0F8 30%, #EDF7F5 70%, var(--teal-light) 100%);
+      position: relative; overflow: hidden;
+    }
+    .hero::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--pink) 0%, var(--pink-mid) 50%, var(--teal) 100%); }
+    .hero-orb-1 { position: absolute; top: -8%; right: 0%; width: 40vw; height: 40vw; border-radius: 50%; background: radial-gradient(circle, rgba(232,23,127,0.12) 0%, transparent 65%); }
+    .hero-orb-2 { position: absolute; bottom: 0%; left: -5%; width: 30vw; height: 30vw; border-radius: 50%; background: radial-gradient(circle, rgba(43,140,126,0.12) 0%, transparent 65%); }
+    .hero-inner { position: relative; z-index: 1; max-width: 1000px; }
+    .hero-kicker { display: flex; align-items: center; gap: 1rem; margin-bottom: 2.5rem; }
+    .kicker-org { font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mid); }
+    .kicker-badge { font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.28rem 0.75rem; background: var(--pink); color: var(--white); border-radius: 2px; }
+    .hero-title { font-family: 'Fraunces', serif; font-size: clamp(3rem, 6.5vw, 7rem); font-weight: 300; line-height: 1; color: var(--ink); margin-bottom: 2rem; letter-spacing: -0.02em; }
+    .hero-title em { font-style: italic; color: var(--pink); }
+    .hero-desc { font-size: 1rem; line-height: 1.8; color: var(--mid); max-width: 580px; font-weight: 300; margin-bottom: 5rem; }
+    .hero-projects { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin: 0 -4rem; }
+    .hero-project { padding: 3rem 4rem; background: rgba(255,255,255,0.5); border-top: 1px solid rgba(232,23,127,0.15); transition: background 0.3s; }
+    .hero-project:hover { background: rgba(255,255,255,0.7); }
+    .project-phase { display: inline-block; font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase; padding: 0.2rem 0.6rem; border-radius: 2px; margin-bottom: 0.8rem; }
+    .phase-discovery { background: var(--teal-light); color: var(--teal); }
+    .phase-alpha { background: var(--pink-light); color: var(--pink); }
+    .project-name { font-family: 'Fraunces', serif; font-size: 1.5rem; font-weight: 300; color: var(--ink); line-height: 1.2; margin-bottom: 0.6rem; }
+    .project-sub { font-size: 0.82rem; color: var(--mid); line-height: 1.6; }
+
+    /* LAYOUT */
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 4rem; }
+    .section { padding: 7rem 0; }
+    .label { font-size: 0.62rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--pink); margin-bottom: 1.2rem; display: block; }
+    .label-teal { color: var(--teal); }
+    .h2 { font-family: 'Fraunces', serif; font-size: clamp(2rem, 3.5vw, 3.2rem); font-weight: 300; line-height: 1.08; color: var(--ink); margin-bottom: 2rem; letter-spacing: -0.01em; }
+    .h2 em { font-style: italic; color: var(--pink); }
+    .h2 em.teal { color: var(--teal); }
+    .body { font-size: 0.95rem; line-height: 1.9; color: var(--mid); font-weight: 300; max-width: 680px; }
+    .body + .body { margin-top: 1.2rem; }
+
+    /* CONTEXT BAND */
+    .context-band { background: var(--off); padding: 5rem 4rem; display: grid; grid-template-columns: 1fr 1px 1fr 1px 1fr; gap: 3.5rem; align-items: start; }
+    .context-divider { background: var(--border); }
+    .context-label { font-size: 0.6rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--mid); margin-bottom: 0.7rem; }
+    .context-value { font-size: 0.92rem; color: var(--ink); line-height: 1.6; }
+
+    /* ROLE HIGHLIGHT */
+    .role-highlight { padding: 4rem; background: linear-gradient(120deg, var(--pink-light) 0%, #F8E8F4 40%, var(--teal-light) 100%); display: flex; align-items: center; gap: 4rem; }
+    .role-highlight-text { font-family: 'Fraunces', serif; font-size: clamp(1.5rem, 2.5vw, 2.2rem); font-weight: 300; font-style: italic; color: var(--ink); line-height: 1.4; flex: 1; opacity: 0.85; }
+    .role-highlight-text strong { font-style: normal; font-weight: 400; opacity: 1; color: var(--pink); }
+    .role-badges { display: flex; flex-direction: column; gap: 0.6rem; flex-shrink: 0; }
+    .role-badge { font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.5rem 1rem; border: 1px solid rgba(232,23,127,0.25); color: var(--mid); background: rgba(255,255,255,0.6); }
+
+    /* TWO-COL */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start; }
+
+    /* PHASE SECTIONS */
+    .phase-section { padding: 7rem 0; border-top: 1px solid var(--border); }
+    .phase-header { display: grid; grid-template-columns: auto 1fr; gap: 3rem; align-items: start; margin-bottom: 4.5rem; }
+    .phase-num-large { font-family: 'Fraunces', serif; font-size: 6rem; font-weight: 300; font-style: italic; line-height: 1; }
+    .num-pink { color: var(--pink-light); }
+    .num-teal { color: var(--teal-light); }
+
+    /* STATS BAND */
+    .stats-band { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; margin: 4rem 0; }
+    .stat-card { padding: 2.5rem 2rem; background: var(--pink); text-align: center; }
+    .stat-card:nth-child(even) { background: var(--pink-mid); }
+    .stat-num { font-family: 'Fraunces', serif; font-size: 2.8rem; font-weight: 300; color: var(--white); line-height: 1; margin-bottom: 0.5rem; }
+    .stat-label { font-size: 0.72rem; color: rgba(255,255,255,0.75); line-height: 1.5; letter-spacing: 0.04em; }
+
+    /* PROTOTYPES */
+    .prototypes-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 3.5rem; }
+    .prototype-card { padding: 2rem; background: var(--off); border-top: 2px solid var(--pink); }
+    .prototype-card:nth-child(even) { border-top-color: var(--pink-mid); }
+    .proto-num { font-family: 'Fraunces', serif; font-size: 1.8rem; font-weight: 300; font-style: italic; color: var(--pink-light); line-height: 1; margin-bottom: 1rem; }
+    .proto-title { font-size: 0.88rem; font-weight: 500; color: var(--ink); margin-bottom: 0.6rem; line-height: 1.4; }
+    .proto-body { font-size: 0.8rem; line-height: 1.7; color: var(--mid); font-weight: 300; }
+
+    /* METHODS */
+    .methods-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-top: 3rem; }
+    .method-card { padding: 1.8rem; background: var(--teal-light); border-top: 2px solid var(--teal); }
+    .method-title { font-size: 0.88rem; font-weight: 500; color: var(--ink); margin-bottom: 0.6rem; }
+    .method-body { font-size: 0.8rem; line-height: 1.7; color: var(--mid); font-weight: 300; }
+
+    /* FINDINGS */
+    .finding { display: grid; grid-template-columns: 4rem 1fr; gap: 2rem; padding: 2.5rem 0; border-bottom: 1px solid var(--border); align-items: start; }
+    .finding:first-child { border-top: 1px solid var(--border); }
+    .finding-num { font-family: 'Fraunces', serif; font-size: 2.2rem; font-weight: 300; font-style: italic; color: var(--pink); line-height: 1; padding-top: 0.2rem; }
+    .finding-title { font-size: 0.97rem; font-weight: 500; color: var(--ink); margin-bottom: 0.5rem; line-height: 1.4; }
+    .finding-body { font-size: 0.85rem; line-height: 1.8; color: var(--mid); font-weight: 300; }
+    .quote-inline { font-style: italic; color: var(--pink); display: block; margin-top: 0.8rem; font-size: 0.82rem; border-left: 2px solid var(--pink-light); padding-left: 0.8rem; }
+
+    /* SCREENS */
+    .screens { background: var(--off); padding: 7rem 4rem; }
+    .screens-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; margin-top: 3.5rem; }
+    .screen { background: var(--white); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 0.8rem; padding: 3.5rem 2rem; min-height: 280px; border: 1px solid var(--border); }
+    .screen.wide { grid-column: span 2; min-height: 220px; }
+    .screen-placeholder { font-family: 'Fraunces', serif; font-style: italic; font-size: 0.88rem; color: var(--pink); opacity: 0.35; text-align: center; }
+    .screen-label { font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mid); opacity: 0.5; }
+
+    /* RECOMMENDATIONS */
+    .recs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: 4rem; }
+    .rec-card { padding: 2.5rem; background: var(--pink-pale); border-left: 3px solid var(--pink); }
+    .rec-card:nth-child(odd) { background: var(--pink-light); }
+    .rec-num { font-family: 'Fraunces', serif; font-size: 1.5rem; font-weight: 300; font-style: italic; color: var(--pink); margin-bottom: 0.8rem; }
+    .rec-title { font-size: 0.9rem; font-weight: 500; color: var(--ink); margin-bottom: 0.5rem; line-height: 1.4; }
+    .rec-body { font-size: 0.82rem; line-height: 1.8; color: var(--mid); font-weight: 300; }
+
+    /* LEAD SECTION */
+    .lead-section { background: var(--teal-light); padding: 7rem 4rem; border-top: 3px solid var(--teal); }
+    .lead-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start; }
+    .lead-list { list-style: none; display: flex; flex-direction: column; gap: 1.2rem; margin-top: 1.5rem; }
+    .lead-list li { display: grid; grid-template-columns: 1.5rem 1fr; gap: 1rem; font-size: 0.92rem; line-height: 1.7; color: var(--mid); font-weight: 300; }
+    .lead-list li::before { content: '→'; color: var(--teal); font-size: 0.9rem; padding-top: 0.1rem; }
+
+    /* REFLECTION */
+    .reflection-quote { font-family: 'Fraunces', serif; font-size: clamp(1.4rem, 2.5vw, 2rem); font-weight: 300; font-style: italic; color: var(--ink); line-height: 1.5; border-left: 3px solid var(--pink); padding-left: 2.5rem; margin: 3rem 0; max-width: 700px; }
+
+    /* NEXT */
+    .next-project { padding: 5rem 4rem; background: linear-gradient(110deg, var(--pink-light) 0%, var(--teal-light) 100%); display: flex; justify-content: space-between; align-items: center; }
+    .next-label { font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mid); margin-bottom: 0.8rem; }
+    .next-title { font-family: 'Fraunces', serif; font-size: 2rem; font-weight: 300; color: var(--ink); }
+    .next-arrow { width: 54px; height: 54px; border: 1px solid rgba(232,23,127,0.25); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: var(--pink); text-decoration: none; transition: background 0.3s, color 0.3s; flex-shrink: 0; background: rgba(255,255,255,0.6); }
+    .next-arrow:hover { background: var(--pink); color: var(--white); }
+
+    /* FOOTER */
+    footer { padding: 2rem 4rem; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); }
+    .footer-name { font-family: 'Fraunces', serif; font-size: 0.95rem; }
+    .footer-copy { font-size: 0.68rem; color: var(--mid); }
+
+    /* ANIMATE */
+    .fade-up { opacity: 0; transform: translateY(22px); transition: opacity 0.85s ease, transform 0.85s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 900px) {
+      nav { padding: 1.4rem 2rem; }
+      .hero { padding: 9rem 2rem 0; }
+      .hero-projects { grid-template-columns: 1fr; margin: 0 -2rem; }
+      .hero-project { padding: 2.5rem 2rem; }
+      .context-band { padding: 4rem 2rem; grid-template-columns: 1fr; }
+      .context-divider { display: none; }
+      .role-highlight { padding: 3rem 2rem; flex-direction: column; gap: 2rem; }
+      .container { padding: 0 2rem; }
+      .two-col { grid-template-columns: 1fr; gap: 3rem; }
+      .stats-band { grid-template-columns: 1fr 1fr; }
+      .prototypes-grid { grid-template-columns: 1fr; }
+      .methods-grid { grid-template-columns: 1fr 1fr; }
+      .recs-grid { grid-template-columns: 1fr; }
+      .screens { padding: 5rem 2rem; }
+      .screens-grid { grid-template-columns: 1fr; }
+      .screen.wide { grid-column: span 1; }
+      .lead-section { padding: 5rem 2rem; }
+      .lead-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .next-project { padding: 4rem 2rem; }
+      footer { padding: 2rem; flex-direction: column; gap: 0.8rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-back">All work</a>
+    <a href="index.html" class="nav-logo">Lauren Thomas</a>
+    <span class="nav-tag">Case study</span>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-orb-1"></div>
+    <div class="hero-orb-2"></div>
+    <div class="hero-inner">
+      <div class="hero-kicker">
+        <span class="kicker-org">DLUHC &mdash; Digital Planning Programme</span>
+        <span class="kicker-badge">Interaction Design Lead &middot; Consultant</span>
+      </div>
+      <h1 class="hero-title">Local Plans &amp;<br><em>Digital Planning.</em></h1>
+      <p class="hero-desc">Two phases of work on the UK Government's Digital Planning Programme — leading a discovery into planning data visualisations and an alpha into how local authorities select and publicise development sites.</p>
+    </div>
+    <div class="hero-projects">
+      <div class="hero-project">
+        <div class="project-phase phase-discovery">Discovery</div>
+        <div class="project-name">Planning Data Visualisations</div>
+        <div class="project-sub">Understanding how planners, developers, and the public make sense of planning data — and what visualisation approaches genuinely support better decision-making.</div>
+      </div>
+      <div class="hero-project">
+        <div class="project-phase phase-alpha">Alpha</div>
+        <div class="project-name">Selecting &amp; Publicising Sites</div>
+        <div class="project-sub">Designing and testing five prototypes to standardise the way Local Planning Authorities identify, assess and communicate site selections — a core but poorly supported part of the plan-making process.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTEXT BAND -->
+  <div class="context-band">
+    <div>
+      <div class="context-label">Organisation</div>
+      <div class="context-value">Department for Levelling Up, Housing &amp; Communities (DLUHC) — Digital Planning Programme</div>
+    </div>
+    <div class="context-divider"></div>
+    <div>
+      <div class="context-label">My role</div>
+      <div class="context-value">Interaction Design Lead (Consultant)<br>Discovery lead + Alpha design lead</div>
+    </div>
+    <div class="context-divider"></div>
+    <div>
+      <div class="context-label">Alpha delivered</div>
+      <div class="context-value">6 prototypes &middot; 24 interviews &middot; 4 workshops &middot; 30+ assumptions tested &middot; 6 recommendations &middot; 1 outcomes roadmap</div>
+    </div>
+  </div>
+
+  <!-- ROLE HIGHLIGHT -->
+  <div class="role-highlight">
+    <p class="role-highlight-text">As <strong>Interaction Design Lead</strong>, I shaped both phases from research strategy through to prototype and recommendation — brought in as a consultant to deliver to the same standard as an embedded team, in a complex government policy environment.</p>
+    <div class="role-badges">
+      <div class="role-badge">Research strategy</div>
+      <div class="role-badge">Prototype design</div>
+      <div class="role-badge">Stakeholder management</div>
+      <div class="role-badge">Synthesis &amp; recommendations</div>
+    </div>
+  </div>
+
+  <!-- PROGRAMME CONTEXT -->
+  <section class="section">
+    <div class="container">
+      <div class="two-col fade-up">
+        <div>
+          <span class="label label-teal">The programme</span>
+          <h2 class="h2">Modernising England's planning system — <em class="teal">one piece at a time.</em></h2>
+        </div>
+        <div style="padding-top:0.5rem">
+          <p class="body">Local Plans are the foundation of England's planning system — legally required documents that determine where homes, businesses and infrastructure can be built. But the process of creating them is slow, inconsistent, and often contested. The Digital Planning Programme was set up to change that, working across data, software, plan-making and policy.</p>
+          <p class="body">I worked across two separate pieces of work within the programme — first as lead on a discovery into planning data visualisations, then as lead on a full alpha into how Local Planning Authorities (LPAs) select and publicise development sites. Both involved working with a multidisciplinary team across design, policy, tech, and data.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DISCOVERY -->
+  <section class="phase-section">
+    <div class="container">
+      <div class="phase-header fade-up">
+        <div class="phase-num-large num-teal">01</div>
+        <div>
+          <div class="project-phase phase-discovery" style="margin-bottom:1rem">Discovery</div>
+          <h2 class="h2">Planning Data <em class="teal">Visualisations</em></h2>
+          <p class="body">Planning generates enormous amounts of data — site boundaries, constraints, application histories, policy zones — but the way this data is presented is often inaccessible, inconsistent, and poorly suited to the decisions people actually need to make. This discovery set out to understand who needs to see planning data, what they need from it, and what kinds of visualisation genuinely help versus overwhelm.</p>
+        </div>
+      </div>
+      <div style="margin-top:4rem;" class="fade-up">
+        <span class="label label-teal">Key findings</span>
+        <div class="finding">
+          <div class="finding-num" style="color:var(--teal)">01</div>
+          <div><div class="finding-title">Data exists — but isn't designed for the decisions people need to make</div><div class="finding-body">Users across all groups could access planning data in some form, but it was rarely presented in a way that mapped to their actual question. Planning officers needed to cross-reference multiple systems. Developers needed to quickly assess viability. The public needed clarity on what a proposal meant for their street. One dataset — many completely different needs.</div></div>
+        </div>
+        <div class="finding">
+          <div class="finding-num" style="color:var(--teal)">02</div>
+          <div><div class="finding-title">Maps are assumed to be universal — but they're not equally accessible</div><div class="finding-body">The default response to planning data is a map, but many non-specialist users — particularly community groups and members of the public — struggled to interpret map-based interfaces. Visualisation choices were being made for technical users, leaving wider audiences behind and deepening existing inequalities in planning participation.</div></div>
+        </div>
+        <div class="finding">
+          <div class="finding-num" style="color:var(--teal)">03</div>
+          <div><div class="finding-title">Trust in data quality was a bigger barrier than format</div><div class="finding-body">Developers and planning officers alike expressed uncertainty about whether data was current and authoritative. Visualisation improvements alone wouldn't solve this — the underlying data pipeline needed to be addressed alongside any front-end changes for users to actually rely on what they were seeing.</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ALPHA -->
+  <section class="phase-section" style="border-top-color:rgba(232,23,127,0.2)">
+    <div class="container">
+      <div class="phase-header fade-up">
+        <div class="phase-num-large num-pink">02</div>
+        <div>
+          <div class="project-phase phase-alpha" style="margin-bottom:1rem">Alpha</div>
+          <h2 class="h2">Selecting &amp; Publicising <em>Sites</em></h2>
+          <p class="body">Identifying, assessing and allocating sites is one of the most time-consuming and costly parts of the plan-making process. Practice among Local Planning Authorities is uneven — due to imprecise, poorly understood, or in some parts of the process non-existent guidance, methodologies and standards. Failure to get it right can lead to local plans being found 'unsound', additional cost for LPAs, and costs for developers who invest in sites that are later overturned.</p>
+          <p class="body" style="margin-top:1rem">This alpha focused on two of the highest-value ideas identified in discovery: standardising the site identification form and the site assessment methodology.</p>
+        </div>
+      </div>
+
+      <!-- STATS -->
+      <div class="stats-band fade-up">
+        <div class="stat-card"><div class="stat-num">6</div><div class="stat-label">Prototypes &amp; proofs of concept</div></div>
+        <div class="stat-card"><div class="stat-num">24</div><div class="stat-label">User interviews conducted</div></div>
+        <div class="stat-card"><div class="stat-num">4</div><div class="stat-label">Research workshops run</div></div>
+        <div class="stat-card"><div class="stat-num">30+</div><div class="stat-label">Risky assumptions tested</div></div>
+      </div>
+
+      <!-- PROTOTYPES -->
+      <div class="fade-up">
+        <span class="label">The prototypes</span>
+        <div class="prototypes-grid">
+          <div class="prototype-card"><div class="proto-num">01</div><div class="proto-title">Step-by-step playbook</div><div class="proto-body">Structured guidance for LPAs on how to run the full site selection process — addressing the absence of a clear, centrally produced methodology.</div></div>
+          <div class="prototype-card"><div class="proto-num">02a</div><div class="proto-title">Site identification form</div><div class="proto-body">A standardised online form for landowners and developers to submit sites for consideration during the call for sites — reducing inconsistency and manual processing by LPAs.</div></div>
+          <div class="prototype-card"><div class="proto-num">02b</div><div class="proto-title">Hosting proof of concept</div><div class="proto-body">Explored different technical approaches to hosting the site identification form, including centralised vs. federated data models and security considerations.</div></div>
+          <div class="prototype-card"><div class="proto-num">03</div><div class="proto-title">Site assessment methodology</div><div class="proto-body">A standardised, government-backed framework for how LPAs should assess submitted sites — aiming to improve consistency and reduce challenges at Examination in Public.</div></div>
+          <div class="prototype-card"><div class="proto-num">04</div><div class="proto-title">Site information view</div><div class="proto-body">A public-facing view of assessed sites — making the outcomes of site selection visible and searchable for communities, developers, and planning inspectors.</div></div>
+          <div class="prototype-card"><div class="proto-num">05</div><div class="proto-title">Assessment outputs template</div><div class="proto-body">A standardised template for communicating site assessment outputs — making results consistent, auditable, and usable for Examination in Public.</div></div>
+        </div>
+      </div>
+
+      <!-- RESEARCH APPROACH -->
+      <div style="margin-top:5rem" class="fade-up">
+        <span class="label">Research approach</span>
+        <div class="methods-grid">
+          <div class="method-card"><div class="method-title">Policy explorations</div><div class="method-body">Planning experts documented policy requirements, guidance, and best practice examples for site assessment methodologies across different LPA contexts.</div></div>
+          <div class="method-card"><div class="method-title">Design explorations</div><div class="method-body">The design team built and iterated prototypes, testing with LPAs, councillors, PINS, developers, and landowners across multiple research sprints.</div></div>
+          <div class="method-card"><div class="method-title">Tech explorations</div><div class="method-body">The tech team investigated how GIS data could be collected and displayed, building end-to-end proofs of concept to test feasibility and viability.</div></div>
+          <div class="method-card"><div class="method-title">Data explorations</div><div class="method-body">The data team investigated the benefits and drawbacks of using JSON Schema to configure dynamic form fields and how submitted site data could be stored and standardised.</div></div>
+        </div>
+      </div>
+
+      <!-- WHO WE ENGAGED -->
+      <div style="margin-top:5rem" class="fade-up">
+        <span class="label">Who we engaged</span>
+        <div class="finding">
+          <div class="finding-num">01</div>
+          <div><div class="finding-title">Local planners</div><div class="finding-body">Mostly from rural and mixed rural/urban LAs, low to medium digital maturity — to understand local feasibility and the flexibility needed when implementing the prototypes. These LPAs were underrepresented in discovery and brought essential practical context to the alpha.</div></div>
+        </div>
+        <div class="finding">
+          <div class="finding-num">02</div>
+          <div><div class="finding-title">Developers &amp; landowners</div><div class="finding-body">To understand their experience of the site identification and submission process — what they currently provide, what's difficult, and how a standardised form would change their workflow and the quality of submissions.</div></div>
+        </div>
+        <div class="finding">
+          <div class="finding-num">03</div>
+          <div><div class="finding-title">Planning inspectors (PINS)</div><div class="finding-body">To assess whether the prototype outputs would hold up at Examination in Public — and understand what evidence inspectors actually need to be confident in an LPA's site assessment decisions.</div></div>
+        </div>
+        <div class="finding">
+          <div class="finding-num">04</div>
+          <div><div class="finding-title">Councillors, web managers &amp; policy owners</div><div class="finding-body">Councillors gave us the political dimension — a perspective often missing from digital planning work.
+            <span class="quote-inline">"What is missing is the role of councillors — they are a huge influencer in making the 30-month timetable work." — a Local Planner</span>
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCREENS -->
+  <div class="screens">
+    <span class="label">Artefacts &amp; outputs</span>
+    <h2 class="h2 fade-up">The work, in <em>context.</em></h2>
+    <div class="screens-grid">
+      <div class="screen wide"><span class="screen-placeholder">[ Add your prototype screenshot — site identification form or assessment methodology ]</span><span class="screen-label">Prototype — site identification form</span></div>
+      <div class="screen"><span class="screen-placeholder">[ Site information view ]</span><span class="screen-label">Prototype — site information view</span></div>
+      <div class="screen"><span class="screen-placeholder">[ Step-by-step playbook ]</span><span class="screen-label">Prototype — step-by-step playbook</span></div>
+      <div class="screen"><span class="screen-placeholder">[ Research synthesis ]</span><span class="screen-label">Affinity mapping / synthesis</span></div>
+      <div class="screen"><span class="screen-placeholder">[ Assessment outputs template ]</span><span class="screen-label">Prototype — assessment outputs</span></div>
+    </div>
+  </div>
+
+  <!-- RECOMMENDATIONS -->
+  <section class="section">
+    <div class="container">
+      <span class="label">6 key recommendations</span>
+      <h2 class="h2 fade-up">What we said should <em>happen next.</em></h2>
+      <p class="body fade-up">After 24 interviews, 4 workshops and 30+ tested assumptions, we delivered six concrete recommendations to DLUHC — grounded in evidence and designed to move the programme forward with confidence.</p>
+      <div class="recs-grid fade-up">
+        <div class="rec-card"><div class="rec-num">01</div><div class="rec-title">Alpha on Minimum Evidence Base</div><div class="rec-body">Prioritise a focused alpha on what constitutes the minimum evidence base for sound site selection — addressing one of the most contested areas in Local Plan examinations.</div></div>
+        <div class="rec-card"><div class="rec-num">02</div><div class="rec-title">Create the site selection step-by-step playbook</div><div class="rec-body">DLUHC should prioritise centrally producing the step-by-step playbook for site selection — including a standardised site assessment methodology, instructions for the site identification form, and data standards.</div></div>
+        <div class="rec-card"><div class="rec-num">03</div><div class="rec-title">Investigate tech hosting models</div><div class="rec-body">Further exploration is needed into different hosting scenarios and market involvement. A dashboard solution was identified as the optimal technical approach — providing a single source of data truth and reducing data validation overhead for LPAs.</div></div>
+        <div class="rec-card"><div class="rec-num">04</div><div class="rec-title">In-depth policy research on site allocations</div><div class="rec-body">Deeper policy research into the current state of site allocations content and user needs — to align this work with the wider Local Plan components data standardisation programme.</div></div>
+        <div class="rec-card"><div class="rec-num">05</div><div class="rec-title">Move to Beta — in priority order</div><div class="rec-body">Progress beta phases into the products and tools that support LPAs to complete site selection — in order: (a) site identification form, (b) templates for communicating assessment outputs, (c) online dashboard.</div></div>
+        <div class="rec-card"><div class="rec-num">06</div><div class="rec-title">Outcomes-based roadmap delivered</div><div class="rec-body">The alpha concluded with a speculative future user journey and outcomes-based roadmap — giving the programme a clear view of what a mature, digitally-supported site selection process could look like end-to-end.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LEAD SECTION -->
+  <div class="lead-section">
+    <div class="lead-grid fade-up">
+      <div>
+        <span class="label label-teal">What leading looks like</span>
+        <h2 class="h2">More than doing the work — <em class="teal">shaping how it gets done.</em></h2>
+        <p class="body">Being Interaction Design Lead across both phases meant owning the full shape of the work — from research strategy to final recommendations — while operating as a consultant in a complex multi-team government environment.</p>
+      </div>
+      <div>
+        <ul class="lead-list">
+          <li>Led the research strategy and prioritisation for both the discovery and the alpha</li>
+          <li>Designed and facilitated user interviews, workshops and prototype testing sessions across multiple sprints</li>
+          <li>Led synthesis and translated qualitative data from 24 interviews into clear, actionable findings</li>
+          <li>Collaborated with planning policy experts, tech leads and data specialists in a genuinely multidisciplinary team</li>
+          <li>Managed stakeholder relationships with DLUHC, PINS, and senior programme leads</li>
+          <li>Presented findings and recommendations at programme level, advocating for user needs in policy-driven decisions</li>
+          <li>Delivered to embedded-team standard as a consultant — building trust and context quickly across both phases</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- REFLECTION -->
+  <section class="section">
+    <div class="container">
+      <div class="two-col fade-up">
+        <div>
+          <span class="label">Reflection</span>
+          <h2 class="h2">What two phases of government design <em>taught me.</em></h2>
+        </div>
+        <div>
+          <blockquote class="reflection-quote">"The planning system is dense, political, and deeply human. The most valuable thing I brought wasn't a method — it was the ability to make people feel heard, and then translate what they said into something a programme could actually act on."</blockquote>
+          <p class="body">Working across discovery and alpha phases in a government context — with real policy stakes, multidisciplinary teams, and a system that affects every person in England — pushed me to operate at a different level. I learned that good interaction design in this space isn't just about the screens. It's about building the evidence base that earns trust, shaping the questions before anyone starts building, and making complexity navigable for the people who have to make decisions with it.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEXT -->
+  <div class="next-project">
+    <div>
+      <div class="next-label">Next project</div>
+      <div class="next-title">ISNSW — Rebrand &amp; Digital Transformation</div>
+    </div>
+    <a href="casestudy-isnsw.html" class="next-arrow">→</a>
+  </div>
+
+  <footer>
+    <span class="footer-name">Lauren Thomas</span>
+    <span class="footer-copy">&copy; 2026 Lauren Thomas</span>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 60);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
